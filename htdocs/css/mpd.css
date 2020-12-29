@@ -43,3 +43,13 @@ tbody {
 td:first-child {
   width: 30px;
 }
+
+.red {
+  color:#ff0000;
+  top: 4px;
+}
+
+.green {
+  color: #008000;
+  top: 4px;
+}

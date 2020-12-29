@@ -18,7 +18,6 @@
 
 var socket;
 var last_state;
-var isTouch = Modernizr.touch ? 1 : 0;
 
 var app = $.sammy(function() {
 
@@ -91,6 +90,8 @@ function webSocketConnect() {
                     if(JSON.stringify(obj) === JSON.stringify(last_state))
                         break;
 
+                    $('#volumeslider').slider(obj.data.volume);
+
                     $('#stations > tbody > tr').removeClass('active').css("font-weight", "");
                     $('#stations > tbody > tr[trackid='+obj.data.currentsongid+']').addClass('active').css("font-weight", "bold");
 
@@ -101,7 +102,7 @@ function webSocketConnect() {
                     break;
                 case 'song_change':
                     $('#currentstation').text(" " + obj.data.name);
-                    $('#track').text(" " + obj.data.title);
+                    $('#playing').text(" " + obj.data.title);
                     break;
                 default:
                     break;
@@ -151,6 +152,8 @@ function get_appropriate_ws_url()
 
 var updateVolumeIcon = function(volume)
 {
+    console.log("updateVolumeIcon", volume);
+
     $("#volume-icon").removeClass("glyphicon-volume-off");
     $("#volume-icon").removeClass("glyphicon-volume-up");
     $("#volume-icon").removeClass("glyphicon-volume-down");
@@ -166,42 +169,23 @@ var updateVolumeIcon = function(volume)
 
 var updatePlayIcon = function(state)
 {
-    $("#play-icon").removeClass("glyphicon-play")
-    .removeClass("glyphicon-pause");
-    $('#track-icon').removeClass("glyphicon-play")
-    .removeClass("glyphicon-pause")
-    .removeClass("glyphicon-stop");
-
     if(state == 1) { // stop
-        $("#play-icon").addClass("glyphicon-play");
-        $('#track-icon').addClass("glyphicon-stop");
-    } else if(state == 2) { // pause
-        $("#play-icon").addClass("glyphicon-pause");
-        $('#track-icon').addClass("glyphicon-play");
+        $('#onoff-icon').removeClass('red');
+        $('#onoff-icon').addClass('green');
+        $('#volume').addClass('hide')
+        $('#main-panel').addClass('hide')
     } else { // play
-        $("#play-icon").addClass("glyphicon-play");
-        $('#track-icon').addClass("glyphicon-pause");
+        $('#onoff-icon').removeClass('green');
+        $('#onoff-icon').addClass('red');
+        $('#volume').removeClass('hide')
+        $('#main-panel').removeClass('hide')
     }
 }
 
-function clickPlay() {
-    if($('#track-icon').hasClass('glyphicon-stop'))
-        socket.send('MPD_API_SET_PLAY');
-    else
-        socket.send('MPD_API_SET_PAUSE');
-}
-
 function clickOnOff() {
-    if($('#track-icon').hasClass('hide')) {
-        $('#currentstation').text("");
-        $('#track').text("");
-        $('#track-icon').removeClass('hide');
-        socket.send('MPD_API_SET_PLAY');
-        socket.send('MPD_API_GET_QUEUE,0');
-    } else {
-        $('#track-icon').addClass('hide');
-        $('#currentstation').text("POWER OFF");
-        $('#track').text("");
+    if($('#onoff-icon').hasClass('red')) {
         socket.send('MPD_API_SET_STOP');
+    } else {
+        socket.send('MPD_API_SET_PLAY');
     }
 }

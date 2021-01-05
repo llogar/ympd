@@ -111,6 +111,10 @@ function webSocketConnect() {
 
         socket.onclose = function(){
             console.log("disconnected");
+            $('#brand').text("PI radio - backend not running");
+            $('#volume').addClass('hide')
+            $('#onoff').addClass('hide')
+            $('#main-panel').addClass('hide')
         }
 
     } catch(exception) {

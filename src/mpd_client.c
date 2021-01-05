@@ -369,7 +369,7 @@ static int mpd_notify_callback(struct mg_connection *c, enum mg_event ev) {
     {
         mg_websocket_write(c, 1, mpd.buf, mpd.buf_size);
 
-        if(s->song_id != mpd.song_id)
+        if(s->song_id != mpd.song_id || s->queue_version != mpd.queue_version)
         {
             n = mpd_put_current_song(mpd.buf);
             mg_websocket_write(c, 1, mpd.buf, n);

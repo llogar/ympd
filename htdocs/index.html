@@ -34,14 +34,14 @@
       <div class="collapse navbar-collapse">
         <div class="btn-toolbar navbar-btn navbar-right" role="toolbar">
           <div class="btn-group">
-            <div id=volume class="btn btn-toolbar btn-default">
+            <div id=volume class="btn btn-toolbar btn-default hide">
               <span id="volume-icon" class="glyphicon glyphicon-volume-up"></span>
               <div id="volumeslider"></div>
             </div>
           </div>
           <div class="btn-group">
             <button type="button" class="btn btn-default">
-              <span id="onoff-icon" onclick="clickOnOff();" class="glyphicon glyphicon-off green"></span>
+              <span id="onoff-icon" onclick="clickOnOff();" class="glyphicon glyphicon-off red"></span>
             </button>
           </div>
         </div>
@@ -49,7 +49,7 @@
     </div>
   </div>
 
-  <div id=main-panel class="container starter-template">
+  <div id=main-panel class="container starter-template hide">
     <div class="row">
       <div class="col-md-12 col-xs-12">
         <div class="panel panel-primary">

@@ -152,8 +152,6 @@ function get_appropriate_ws_url()
 
 var updateVolumeIcon = function(volume)
 {
-    console.log("updateVolumeIcon", volume);
-
     $("#volume-icon").removeClass("glyphicon-volume-off");
     $("#volume-icon").removeClass("glyphicon-volume-up");
     $("#volume-icon").removeClass("glyphicon-volume-down");
@@ -170,13 +168,13 @@ var updateVolumeIcon = function(volume)
 var updatePlayIcon = function(state)
 {
     if(state == 1) { // stop
-        $('#onoff-icon').removeClass('red');
-        $('#onoff-icon').addClass('green');
+        $('#onoff-icon').removeClass('green');
+        $('#onoff-icon').addClass('red');
         $('#volume').addClass('hide')
         $('#main-panel').addClass('hide')
     } else { // play
-        $('#onoff-icon').removeClass('green');
-        $('#onoff-icon').addClass('red');
+        $('#onoff-icon').removeClass('red');
+        $('#onoff-icon').addClass('green');
         $('#volume').removeClass('hide')
         $('#main-panel').removeClass('hide')
     }
@@ -184,8 +182,8 @@ var updatePlayIcon = function(state)
 
 function clickOnOff() {
     if($('#onoff-icon').hasClass('red')) {
-        socket.send('MPD_API_SET_STOP');
-    } else {
         socket.send('MPD_API_SET_PLAY');
+    } else {
+        socket.send('MPD_API_SET_STOP');
     }
 }
